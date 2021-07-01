@@ -5,6 +5,18 @@ export default class Response extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
+  @column()
+  public playlistId: number
+
+  @column()
+  public question: number
+
+  @column()
+  public status: boolean
+
+  @column()
+  public email: string
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
