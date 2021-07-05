@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeSave, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Playlist from './Playlist'
+import Hash from '@ioc:Adonis/Core/Hash'
 
 export default class Teacher extends BaseModel {
   @column({ isPrimary: true })
@@ -20,6 +21,13 @@ export default class Teacher extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @beforeSave()
+  public static async hashPassword(teacher: Teacher) {
+    if (teacher.$dirty.password) {
+      teacher.password = await Hash.make(teacher.password)
+    }
+  }
 
   @hasMany(() => Playlist, {
     foreignKey: 'teacherId',
