@@ -1,13 +1,21 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Teacher from 'App/Models/Teacher'
+import CreateTeacherService from 'App/Services/CreateTeacherService'
+import CreateTeacher from 'App/Validators/CreateTeacherValidator'
 
 export default class TeachersController {
   public async index({}: HttpContextContract) {}
 
-  public async create({ request }: HttpContextContract) {
-    const data = request.only(['name', 'email', 'password'])
-    const teacher = await Teacher.create(data)
-    return teacher
+  public async create({ request, response }: HttpContextContract) {
+    await request.validate(CreateTeacher)
+    const createTeacherService = new CreateTeacherService();
+    const status = await createTeacherService.execute(request);
+    if(status === true){
+      return response.status(201).send({
+        message: 'Sucesso ao criar nova conta!',
+      });
+    }else{
+      return response.status(409)
+    }
   }
 
   public async store({}: HttpContextContract) {}
