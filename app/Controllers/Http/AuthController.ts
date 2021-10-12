@@ -1,4 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Teacher from 'App/Models/Teacher'
 
 export default class AuthController {
   public async login({ request, auth, response }: HttpContextContract) {
@@ -8,7 +9,14 @@ export default class AuthController {
       const token = await auth.use('api').attempt(email, password, {
         expiresIn: '7days',
       })
-      return token
+      const teacher = await Teacher.findBy("email", email);
+      return {
+        token: token,
+        teacher: {
+          name: teacher?.name,
+          email: teacher?.email
+        }
+      }
     } catch {
       return response.badRequest('Invalid credentials')
     }
