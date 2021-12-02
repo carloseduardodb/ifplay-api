@@ -3,8 +3,6 @@ import CreateTeacherService from 'App/Services/CreateTeacherService'
 import CreateTeacher from 'App/Validators/CreateTeacherValidator'
 
 export default class TeachersController {
-  public async index({}: HttpContextContract) {}
-
   public async create({ request, response }: HttpContextContract) {
     await request.validate(CreateTeacher)
     const createTeacherService = new CreateTeacherService();
