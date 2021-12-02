@@ -30,4 +30,6 @@ Route.post('teacher/register', 'TeachersController.create')
 
 Route.group(() => {
   Route.post('teacher/logout', 'AuthController.logout')
+  Route.post('teacher/playlist', 'PlaylistsController.store')
+  Route.get('teacher/playlist', 'PlaylistsController.index')
 }).middleware('auth')
