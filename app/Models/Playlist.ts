@@ -2,6 +2,7 @@ import { DateTime } from 'luxon'
 import { BaseModel, column, hasMany, HasMany, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import Teacher from './Teacher'
 import Video from './Video'
+import Quiz from './Quiz'
 
 export default class Playlist extends BaseModel {
   @column({ isPrimary: true })
@@ -9,6 +10,9 @@ export default class Playlist extends BaseModel {
 
   @column()
   public name: string
+
+  @column()
+  public quizId: number
 
   @column()
   public teacherId: number
@@ -23,6 +27,11 @@ export default class Playlist extends BaseModel {
     localKey: 'teacherId',
   })
   public teacher: HasOne<typeof Teacher>
+
+  @hasOne(() => Quiz, {
+    localKey: 'quizId',
+  })
+  public quiz: HasOne<typeof Quiz>
 
   @hasMany(() => Video, {
     foreignKey: 'playlistId',
