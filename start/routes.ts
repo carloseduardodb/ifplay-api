@@ -30,6 +30,22 @@ Route.post('teacher/register', 'TeachersController.create')
 
 Route.group(() => {
   Route.post('teacher/logout', 'AuthController.logout')
+
   Route.post('teacher/playlist', 'PlaylistsController.store')
   Route.get('teacher/playlist', 'PlaylistsController.index')
+
+  Route.get('teacher/answers', 'PlaylistsController.index')
+  Route.post('teacher/answers', 'PlaylistsController.store')
+
+  Route.get('teacher/questions', 'QuestionsController.index')
+  Route.post('teacher/questions', 'QuestionsController.store')
+
+  Route.get('teacher/quizzes', 'QuizzesController.index')
+  Route.post('teacher/quizzes', 'QuizzesController.store')
+
+  Route.get('teacher/teams', 'TeamsController.index')
+  Route.post('teacher/teams', 'TeamsController.store')
+
+  Route.get('teacher/videos', 'VideosController.index')
+  Route.post('teacher/videos', 'VideosController.store')
 }).middleware('auth')
