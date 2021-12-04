@@ -48,6 +48,8 @@ Route.group(() => {
   //rotas para controllers de quizzes (engloba questões e perguntas)
   Route.get('teacher/quizzes', 'QuizzesController.index')
   Route.post('teacher/quizzes', 'QuizzesController.store')
+  Route.post('teacher/playlist/quiz/:id', 'QuizzesController.update')
+  Route.get('teacher/quizzes/:id', 'QuizzesController.index')
 
   //rotas para controllers de classes
   Route.get('teacher/teams', 'TeamsController.index')
