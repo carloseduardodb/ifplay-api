@@ -34,6 +34,8 @@ Route.group(() => {
   //rotas para controller de playlist
   Route.post('teacher/playlist', 'PlaylistsController.store')
   Route.get('teacher/playlist', 'PlaylistsController.index')
+  Route.get('teacher/:id/videos', 'PlaylistsController.indexVideos')
+  Route.delete('teacher/playlist/:id', 'PlaylistsController.destroy')
 
   //rotas para controller de perguntas
   Route.get('teacher/answers', 'PlaylistsController.index')
