@@ -7,7 +7,14 @@ export default class Teams extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.string('name').notNullable()
-      table.string('url').notNullable()
+      table.string('code').notNullable().defaultTo('uuid()')
+      table
+        .integer('teacher_id')
+        .unsigned()
+        .references('id')
+        .inTable('teachers')
+        .onDelete('CASCADE')
+      table.integer('quiz_id').unsigned().references('id').inTable('quizzes').onDelete('CASCADE')
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
