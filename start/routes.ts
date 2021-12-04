@@ -31,21 +31,27 @@ Route.post('teacher/register', 'TeachersController.create')
 Route.group(() => {
   Route.post('teacher/logout', 'AuthController.logout')
 
+  //rotas para controller de playlist
   Route.post('teacher/playlist', 'PlaylistsController.store')
   Route.get('teacher/playlist', 'PlaylistsController.index')
 
+  //rotas para controller de perguntas
   Route.get('teacher/answers', 'PlaylistsController.index')
   Route.post('teacher/answers', 'PlaylistsController.store')
 
+  //rotas para controller de questões (títulos)
   Route.get('teacher/questions', 'QuestionsController.index')
   Route.post('teacher/questions', 'QuestionsController.store')
 
+  //rotas para controllers de quizzes (engloba questões e perguntas)
   Route.get('teacher/quizzes', 'QuizzesController.index')
   Route.post('teacher/quizzes', 'QuizzesController.store')
 
+  //rotas para controllers de classes
   Route.get('teacher/teams', 'TeamsController.index')
   Route.post('teacher/teams', 'TeamsController.store')
 
+  //rotas para controllers de videos
   Route.get('teacher/videos', 'VideosController.index')
   Route.post('teacher/videos', 'VideosController.store')
 }).middleware('auth')
