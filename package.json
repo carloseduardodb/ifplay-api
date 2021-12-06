@@ -29,6 +29,7 @@
     "@adonisjs/core": "^5.1.0",
     "@adonisjs/lucid": "^15.0.1",
     "@adonisjs/repl": "^3.0.0",
+    "adonis5-scheduler": "^2.0.2",
     "luxon": "^1.27.0",
     "mysql": "^2.18.1",
     "phc-bcrypt": "^1.0.7",
