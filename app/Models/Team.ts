@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, scope } from '@ioc:Adonis/Lucid/Orm'
 
 export default class Team extends BaseModel {
   @column({ isPrimary: true })
@@ -9,7 +9,13 @@ export default class Team extends BaseModel {
   public name: string
 
   @column()
-  public url: string
+  public code: string
+
+  @column()
+  public teacherId: number
+
+  @column()
+  public quizId: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
