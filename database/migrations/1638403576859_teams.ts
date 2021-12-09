@@ -14,6 +14,7 @@ export default class Teams extends BaseSchema {
         .references('id')
         .inTable('teachers')
         .onDelete('CASCADE')
+        .notNullable()
       table.integer('quiz_id').unsigned().references('id').inTable('quizzes').onDelete('CASCADE')
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
