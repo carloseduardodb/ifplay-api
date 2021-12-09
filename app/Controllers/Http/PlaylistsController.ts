@@ -58,6 +58,51 @@ export default class PlaylistsController {
     return questionsList
   }
 
+  public async indexResponses({ auth, params }: HttpContextContract) {
+    // pegar todas as respostas do usuário a uma playlist
+    const responses = await Database.from((subQuery) => {
+      return subQuery
+        .from('questions')
+        .innerJoin('quizzes', 'questions.quiz_id', 'quizzes.id')
+        .innerJoin('playlists', 'quizzes.id', 'playlists.quiz_id')
+        .innerJoin('responses', 'questions.id', 'responses.question_id')
+        .where('responses.status', '=', 'acerto')
+        .andWhere('questions.teacher_id', auth.user!.id)
+        .count({
+          acertos: '*',
+        })
+        .as('acertos')
+    })
+      .from((subQuery) => {
+        return subQuery
+          .from('questions')
+          .innerJoin('quizzes', 'questions.quiz_id', 'quizzes.id')
+          .innerJoin('playlists', 'quizzes.id', 'playlists.quiz_id')
+          .innerJoin('responses', 'questions.id', 'responses.question_id')
+          .where('responses.status', '=', 'erro')
+          .andWhere('playlists.id', params.idPlaylist)
+          .andWhere('questions.teacher_id', auth.user!.id)
+          .count({
+            erros: '*',
+          })
+          .as('erros')
+      })
+      .from('responses')
+      .innerJoin('questions', 'responses.question_id', 'questions.id')
+      .innerJoin('quizzes', 'questions.quiz_id', 'quizzes.id')
+      .innerJoin('playlists', 'quizzes.id', 'playlists.quiz_id')
+      .innerJoin('teams', 'quizzes.id', 'teams.id')
+      .where('playlists.id', params.idPlaylist)
+      .andWhere('responses.teacher_id', auth.user!.id)
+      .andWhere('teams.id', params.idTeams)
+
+    console.log(responses)
+    /**
+     * select responses from responses innerjoin questions on responses.question_id = questions.id
+     */
+    //return responses
+  }
+
   public async indexCountItems({ auth, params }: HttpContextContract) {
     const playlist = await Playlist.query()
       .where('id', params.id)

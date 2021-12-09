@@ -40,6 +40,7 @@ Route.group(() => {
   Route.get('teacher/:id/count-items', 'PlaylistsController.indexCountItems')
   Route.get('teacher/count-items', 'PlaylistsController.indexCountAllItems')
   Route.delete('teacher/playlist/:id', 'PlaylistsController.destroy')
+  Route.get('/playlists/:idPlaylist/teams/:idTeams/responses', 'PlaylistsController.indexResponses')
 
   Route.get('teacher/playlist/count', 'PlaylistsController.countAllPlaylists')
 
