@@ -12,6 +12,13 @@ export default class Videos extends BaseSchema {
         .references('id')
         .inTable('playlists')
         .onDelete('CASCADE')
+      table
+        .integer('teacher_id')
+        .unsigned()
+        .references('id')
+        .inTable('teachers')
+        .onDelete('CASCADE')
+        .notNullable()
       table.string('url')
       table.integer('views')
       /**
