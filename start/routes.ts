@@ -35,11 +35,18 @@ Route.group(() => {
   Route.post('teacher/playlist', 'PlaylistsController.store')
   Route.get('teacher/playlist', 'PlaylistsController.index')
   Route.get('teacher/:id/videos', 'PlaylistsController.indexVideos')
+  Route.get('teacher/:id/questions', 'PlaylistsController.indexQuestions')
+  Route.get('teacher/:id/teams', 'PlaylistsController.indexTeams')
+  Route.get('teacher/:id/count-items', 'PlaylistsController.indexCountItems')
+  Route.get('teacher/count-items', 'PlaylistsController.indexCountAllItems')
   Route.delete('teacher/playlist/:id', 'PlaylistsController.destroy')
 
+  Route.get('teacher/playlist/count', 'PlaylistsController.countAllPlaylists')
+
   //rotas para controller de perguntas
-  Route.get('teacher/answers', 'PlaylistsController.index')
-  Route.post('teacher/answers', 'PlaylistsController.store')
+  Route.get('teacher/answers', 'AnswersController.index')
+  Route.post('teacher/answers', 'AnswersController.store')
+  Route.get('teacher/answers/count', 'AnswersController.countAll')
 
   //rotas para controller de questões (títulos)
   Route.get('teacher/questions', 'QuestionsController.index')
@@ -54,6 +61,9 @@ Route.group(() => {
   //rotas para controllers de classes
   Route.get('teacher/teams', 'TeamsController.index')
   Route.post('teacher/teams', 'TeamsController.store')
+
+  //preenche todo o campo da dashboard
+  Route.get('teacher/items/count', 'TeachersController.indexDashboard')
 
   //rotas para controllers de videos
   Route.get('teacher/videos', 'VideosController.index')
