@@ -6,12 +6,20 @@ export default class Alternatives extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
+      table.string('title').notNullable()
       table
         .integer('question_id')
         .unsigned()
         .references('id')
         .inTable('questions')
         .onDelete('CASCADE')
+      table
+        .integer('teacher_id')
+        .unsigned()
+        .references('id')
+        .inTable('teachers')
+        .onDelete('CASCADE')
+        .notNullable()
       table.boolean('is_response')
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
