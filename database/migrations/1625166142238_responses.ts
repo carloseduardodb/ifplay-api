@@ -6,18 +6,20 @@ export default class Responses extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table
-        .integer('playlist_id')
-        .unsigned()
-        .references('id')
-        .inTable('playlists')
-        .onDelete('CASCADE')
+      table.string('student')
       table
         .integer('question_id')
         .unsigned()
         .references('id')
         .inTable('questions')
         .onDelete('CASCADE')
+      table
+        .integer('teacher_id')
+        .unsigned()
+        .references('id')
+        .inTable('teachers')
+        .onDelete('CASCADE')
+        .notNullable()
       table.boolean('status')
       table.string('email')
       /**
