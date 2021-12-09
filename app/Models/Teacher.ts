@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeSave, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Playlist from './Playlist'
 import Hash from '@ioc:Adonis/Core/Hash'
+import { column, BaseModel, beforeSave, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 
 export default class Teacher extends BaseModel {
   @column({ isPrimary: true })
