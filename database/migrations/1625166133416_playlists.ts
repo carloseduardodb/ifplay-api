@@ -7,12 +7,14 @@ export default class Playlists extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.string('name')
+      table.integer('quiz_id').unsigned().references('id').inTable('quizzes').onDelete('CASCADE')
       table
         .integer('teacher_id')
         .unsigned()
         .references('id')
         .inTable('teachers')
         .onDelete('CASCADE')
+        .notNullable()
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
