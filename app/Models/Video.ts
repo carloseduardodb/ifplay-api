@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, HasMany, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, HasMany, HasOne, hasOne, scope } from '@ioc:Adonis/Lucid/Orm'
 import Playlist from './Playlist'
 
 export default class Video extends BaseModel {
@@ -14,6 +14,9 @@ export default class Video extends BaseModel {
 
   @column()
   public views: number
+
+  @column()
+  public teacherId: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
