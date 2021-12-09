@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, HasMany, hasMany, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
-import Playlist from './Playlist'
+import { BaseModel, column, HasMany, hasMany, HasOne, hasOne, scope } from '@ioc:Adonis/Lucid/Orm'
 import Question from './Question'
+import Teacher from './Teacher'
 
 export default class Quiz extends BaseModel {
   @column({ isPrimary: true })
@@ -11,7 +11,7 @@ export default class Quiz extends BaseModel {
   public title: string
 
   @column()
-  public playlistId: number
+  public teacherId: number
 
   @column()
   public code: string
@@ -21,12 +21,6 @@ export default class Quiz extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
-
-  @hasOne(() => Playlist, {
-    localKey: 'playlistId',
-    foreignKey: 'id',
-  })
-  public playlist: HasOne<typeof Playlist>
 
   @hasMany(() => Question, {
     foreignKey: 'quizId',
