@@ -10,7 +10,13 @@ export default class Alternative extends BaseModel {
   public questionId: number
 
   @column()
+  public title: string
+
+  @column()
   public isResponse: boolean
+
+  @column()
+  public teacherId: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
