@@ -28,6 +28,28 @@ Route.post('teacher/login', 'AuthController.login')
 
 Route.post('teacher/register', 'TeachersController.create')
 
+//rotas do aluno
+// 4 ultimas playlists
+Route.get('playlist/last', 'PlaylistsController.last')
+
+// 4 últimos videos
+Route.get('video/last', 'VideosController.last')
+
+// ver todos os videos
+Route.get('video/all', 'VideosController.all')
+
+// uma rota para pegar todas as playlists
+Route.get('playlist/all', 'PlaylistsController.all')
+
+// uma rota para pegar os videos e as questões de uma playlist
+Route.get('/playlist/:id', 'PlaylistsController.showAllRelations')
+
+// uma rota para envio das perguntas respondidas de uma playlist
+Route.post('video/:id/playlist/question', 'VideoController.question')
+
+// uma rota para verificação de código de playlist para saber se o aluno é autorizado
+Route.get('video/:id/playlist/check', 'VideoController.check')
+
 Route.group(() => {
   Route.post('teacher/logout', 'AuthController.logout')
 
