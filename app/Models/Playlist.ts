@@ -80,4 +80,8 @@ export default class Playlist extends BaseModel {
   getQuiz(teacher_id: number) {
     return Quiz.query().where('id', this.quizId).andWhere('teacher_id', teacher_id).first()
   }
+
+  getQuizNoAuth() {
+    return Quiz.query().where('id', this.quizId).first()
+  }
 }
