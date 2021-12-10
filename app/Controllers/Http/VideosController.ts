@@ -16,6 +16,18 @@ export default class VideosController {
     })
   }
 
+  // 4 últimos videos
+  public async last({}: HttpContextContract) {
+    const videos = await Video.query().orderBy('id', 'desc').limit(4)
+    return videos
+  }
+
+  // pegar todos os videos
+  public async all({}: HttpContextContract) {
+    const videos = await Video.all()
+    return videos
+  }
+
   public async show({}: HttpContextContract) {}
 
   public async edit({}: HttpContextContract) {}
