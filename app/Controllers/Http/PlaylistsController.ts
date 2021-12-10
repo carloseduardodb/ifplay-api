@@ -103,6 +103,74 @@ export default class PlaylistsController {
     //return responses
   }
 
+  public async last() {
+    const playlist = await Playlist.query().orderBy('id', 'desc').limit(4)
+    return playlist
+  }
+
+  public async all({}: HttpContextContract) {
+    const playlists = await Playlist.query()
+    return playlists
+  }
+
+  public async showAllRelations({ params }: HttpContextContract) {
+    const playlist = await Playlist.query().andWhere('id', params.id).limit(1)
+    if (playlist[0]) {
+      const quiz = await playlist[0]!.getQuizNoAuth()
+      const videos = await Video.query().where('playlist_id', params.id)
+      const questions = await Question.query().where('quiz_id', quiz!.id).limit(200)
+      let questionsList: any[] = []
+      for (const question of questions) {
+        const alternatives = await Alternative.query().where('question_id', question.id)
+        questionsList.push({
+          ...question.$attributes,
+          alternatives: alternatives,
+        })
+      }
+
+      return {
+        playlist: playlist,
+        quiz: quiz,
+        videos: videos,
+        questions: questionsList,
+      }
+    }
+  }
+
+  //playlist os videos e as questões de uma playlist
+  public async indexPlaylist({ auth, params }: HttpContextContract) {
+    const playlist = await Playlist.query()
+      .where('teacher_id', auth.user!.id)
+      .andWhere('id', params.id)
+      .limit(1)
+    const quiz = await playlist[0]!.getQuiz(auth.user!.id)
+    const videos = await Video.query()
+      .where('playlist_id', params.id)
+      .andWhere('teacher_id', auth.user!.id)
+    const questions = await Question.query().where('quiz_id', quiz!.id).limit(200)
+    let questionsList: any[] = []
+    for (const question of questions) {
+      const alternatives = await Alternative.query()
+        .where('question_id', question.id)
+        .andWhere('teacher_id', auth.user!.id)
+      questionsList.push({
+        ...question.$attributes,
+        alternatives: alternatives,
+      })
+    }
+    return {
+      playlist: playlist,
+      quiz: quiz,
+      videos: videos,
+      questions: questionsList,
+    }
+  }
+
+  // envio pelo usuário das perguntas respondidas de uma playlist
+  public async storeResponses({ auth, params, request }: HttpContextContract) {}
+
+  //
+
   public async indexCountItems({ auth, params }: HttpContextContract) {
     const playlist = await Playlist.query()
       .where('id', params.id)
