@@ -1,6 +1,8 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Question from '../../Models/Question'
 import Alternative from '../../Models/Alternative'
+import Response from '../../Models/Response'
+import Quiz from 'App/Models/Quiz'
 
 export default class QuestionsController {
   public async index({}: HttpContextContract) {}
@@ -40,7 +42,35 @@ export default class QuestionsController {
     })
   }
 
-  public async show({}: HttpContextContract) {}
+  public async saveAnswer({ request, response }: HttpContextContract) {
+    const { responses, email, code, name } = request.all()
+
+    //saber se o código é valido
+    const itsValid = Quiz.find('code', code)
+    if (!itsValid) {
+      return response.json({
+        message: 'Código inválido!',
+      })
+    }
+
+    //percorrer respostas e salvar as que forem certas como hit e as que forem falsas como error
+    const alt = await Alternative.findBy('id', responses[0].alternaId)
+
+    responses.forEach((response) => {
+      Response.create({
+        student: name,
+        questionId: response.questionId,
+        status: response.response,
+        email: email,
+        teacherId: alt?.teacherId,
+        code: code,
+      })
+    })
+
+    return response.json({
+      message: 'Respostas enviadas para o professor com sucesso!',
+    })
+  }
 
   public async edit({}: HttpContextContract) {}
 
