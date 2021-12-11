@@ -60,47 +60,31 @@ export default class PlaylistsController {
 
   public async indexResponses({ auth, params }: HttpContextContract) {
     // pegar todas as respostas do usuário a uma playlist
-    const responses = await Database.from((subQuery) => {
-      return subQuery
-        .from('questions')
-        .innerJoin('quizzes', 'questions.quiz_id', 'quizzes.id')
-        .innerJoin('playlists', 'quizzes.id', 'playlists.quiz_id')
-        .innerJoin('responses', 'questions.id', 'responses.question_id')
-        .where('responses.status', '=', 'acerto')
-        .andWhere('questions.teacher_id', auth.user!.id)
-        .count({
-          acertos: '*',
-        })
-        .as('acertos')
-    })
-      .from((subQuery) => {
-        return subQuery
-          .from('questions')
-          .innerJoin('quizzes', 'questions.quiz_id', 'quizzes.id')
-          .innerJoin('playlists', 'quizzes.id', 'playlists.quiz_id')
-          .innerJoin('responses', 'questions.id', 'responses.question_id')
-          .where('responses.status', '=', 'erro')
-          .andWhere('playlists.id', params.idPlaylist)
-          .andWhere('questions.teacher_id', auth.user!.id)
-          .count({
-            erros: '*',
-          })
-          .as('erros')
-      })
-      .from('responses')
-      .innerJoin('questions', 'responses.question_id', 'questions.id')
-      .innerJoin('quizzes', 'questions.quiz_id', 'quizzes.id')
-      .innerJoin('playlists', 'quizzes.id', 'playlists.quiz_id')
-      .innerJoin('teams', 'quizzes.id', 'teams.id')
-      .where('playlists.id', params.idPlaylist)
-      .andWhere('responses.teacher_id', auth.user!.id)
-      .andWhere('teams.id', params.idTeams)
+    const responses = await Database.rawQuery(
+      'select student, email, ( select count(*) as `acertos` ' +
+        'from `questions` inner join `quizzes` on `questions`.`quiz_id` = `quizzes`.`id` ' +
+        'inner join `playlists` on `quizzes`.`id` = `playlists`.`quiz_id` ' +
+        'inner join `responses` on `questions`.`id` = `responses`.`question_id` ' +
+        'where `responses`.`status` = true and `questions`.`teacher_id` = ' +
+        auth.user!.id +
+        ') ' +
+        'as `acertos`, ( select count(*) as `erros` from `questions` inner join ' +
+        '`quizzes` on `questions`.`quiz_id` = `quizzes`.`id` inner join `playlists` ' +
+        'on `quizzes`.`id` = `playlists`.`quiz_id` inner join `responses` ' +
+        'on `questions`.`id` = `responses`.`question_id` where `responses`.`status` = false ' +
+        'and `playlists`.`id` = ' +
+        params.idPlaylist +
+        ' and `questions`.`teacher_id` = ' +
+        auth.user!.id +
+        ') as `erros` from `responses` ' +
+        'inner join `teams` on `teams`.`code` = `responses`.`code` ' +
+        'where `teams`.`id` = ' +
+        params.idTeams +
+        ' ' +
+        'group by student, email'
+    )
 
-    console.log(responses)
-    /**
-     * select responses from responses innerjoin questions on responses.question_id = questions.id
-     */
-    //return responses
+    return responses
   }
 
   public async last() {
@@ -165,9 +149,6 @@ export default class PlaylistsController {
       questions: questionsList,
     }
   }
-
-  // envio pelo usuário das perguntas respondidas de uma playlist
-  public async storeResponses({ auth, params, request }: HttpContextContract) {}
 
   //
 
