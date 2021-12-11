@@ -20,6 +20,7 @@ export default class Responses extends BaseSchema {
         .inTable('teachers')
         .onDelete('CASCADE')
         .notNullable()
+      table.string('code')
       table.boolean('status')
       table.string('email')
       /**
