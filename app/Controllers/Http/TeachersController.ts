@@ -37,8 +37,8 @@ export default class TeachersController {
     const emailsCount = await Database.from('responses')
       .where('teacher_id', auth.user!.id)
       .andWhere('created_at', '>', await this.getDate())
-      .count({
-        total: 'id',
+      .countDistinct({
+        total: 'email',
       })
 
     // soma todas as playlists criadas no ultimo mes
@@ -52,13 +52,13 @@ export default class TeachersController {
     // o calculo da diferença da quantidade de perguntas entre o mes atual e o mes anterior
     const answersCount1 = await Database.from('questions')
       .where('teacher_id', auth.user!.id)
-      .andWhere('created_at', '>', await this.getDate(60))
-      .andWhere('created_at', '<', await this.getDate(30))
+      .andWhere('created_at', '>', await this.getDate(30))
       .count({
         total: 'id',
       })
     const answersCount2 = await Database.from('questions')
       .where('teacher_id', auth.user!.id)
+      .andWhere('created_at', '>', await this.getDate(60))
       .andWhere('created_at', '<', await this.getDate(30))
       .count({
         total: 'id',
@@ -70,7 +70,7 @@ export default class TeachersController {
       return subQuery
         .from('questions')
         .innerJoin('responses', 'questions.id', 'responses.question_id')
-        .where('responses.status', '=', 'acerto')
+        .where('responses.status', '=', true)
         .andWhere('questions.teacher_id', auth.user!.id)
         .count({
           acertos: '*',
@@ -81,7 +81,7 @@ export default class TeachersController {
         return subQuery
           .from('questions')
           .innerJoin('responses', 'questions.id', 'responses.question_id')
-          .where('responses.status', '=', 'erro')
+          .where('responses.status', '=', false)
           .andWhere('questions.teacher_id', auth.user!.id)
           .count({
             erros: '*',
@@ -90,7 +90,7 @@ export default class TeachersController {
       })
       .from('responses')
       .rightJoin('questions', 'responses.question_id', 'questions.id')
-      .where('responses.status', 'acerto')
+      .where('responses.status', true)
       .andWhere('questions.teacher_id', auth.user!.id)
       .limit(10)
 
