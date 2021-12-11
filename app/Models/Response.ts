@@ -10,13 +10,13 @@ export default class Response extends BaseModel {
   public student: string
 
   @column()
-  public playlistId: number
-
-  @column()
-  public question: number
+  public questionId: number
 
   @column()
   public teacherId: number
+
+  @column()
+  public code: string
 
   @column()
   public status: boolean
