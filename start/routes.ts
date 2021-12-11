@@ -50,6 +50,9 @@ Route.post('video/:id/playlist/question', 'VideoController.question')
 // uma rota para verificação de código de playlist para saber se o aluno é autorizado
 Route.get('video/:id/playlist/check', 'VideoController.check')
 
+// uma rota para receber as respostas do aluno
+Route.post('questions/answer', 'QuestionsController.saveAnswer')
+
 Route.group(() => {
   Route.post('teacher/logout', 'AuthController.logout')
 
