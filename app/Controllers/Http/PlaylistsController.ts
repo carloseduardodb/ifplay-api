@@ -284,4 +284,32 @@ export default class PlaylistsController {
         Error('Team not found')
       })
   }
+
+  public async updateVideo({ params, request }: HttpContextContract) {
+    const video = await Video.findBy('id', params.idVideo)
+    if (video) {
+      video.url = request.all().url
+      await video.save()
+    }
+  }
+
+  public async updateQuestion({ params, request }: HttpContextContract) {
+    /**  preciso percorrer todas as respostas de uma questão e
+     * verificar se a resposta é igual ao que está sendo atualizado
+     * se for atualizo a resposta, além disso preciso pegar o titulo da
+     * pergunta e atualizar também*/
+    const question = await Question.findBy('id', params.idQuestion)
+    if (question) {
+      question.title = params.title
+      await question.save()
+    }
+  }
+
+  public async updateTeam({ params, request }: HttpContextContract) {
+    const team = await Team.findBy('id', params.idTeam)
+    if (team) {
+      team.name = request.all().name
+      await team.save()
+    }
+  }
 }
