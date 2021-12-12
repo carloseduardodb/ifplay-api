@@ -20,4 +20,6 @@ export default Env.rules({
   APP_KEY: Env.schema.string(),
   APP_NAME: Env.schema.string(),
   NODE_ENV: Env.schema.enum(['development', 'production', 'testing'] as const),
+  MAILGUN_API_KEY: Env.schema.string(),
+  MAILGUN_DOMAIN: Env.schema.string(),
 })
