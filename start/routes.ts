@@ -66,6 +66,7 @@ Route.group(() => {
   Route.get('teacher/count-items', 'PlaylistsController.indexCountAllItems')
   Route.delete('teacher/playlist/:id', 'PlaylistsController.destroy')
   Route.get('/playlists/:idPlaylist/teams/:idTeams/responses', 'PlaylistsController.indexResponses')
+  Route.get('/playlists/teams/responses/last', 'PlaylistsController.indexLastResponses')
 
   Route.get('teacher/playlist/count', 'PlaylistsController.countAllPlaylists')
 
@@ -94,4 +95,9 @@ Route.group(() => {
   //rotas para controllers de videos
   Route.get('teacher/videos', 'VideosController.index')
   Route.post('teacher/videos', 'VideosController.store')
+
+  // apagar dentro de playlist
+  Route.delete('teacher/playlist/video/:idVideo', 'PlaylistsController.destroyVideo')
+  Route.delete('teacher/playlist/question/:idQuestion', 'PlaylistsController.destroyQuestion')
+  Route.delete('teacher/playlist/team/:idTeam', 'PlaylistsController.destroyTeam')
 }).middleware('auth')
