@@ -100,4 +100,18 @@ Route.group(() => {
   Route.delete('teacher/playlist/video/:idVideo', 'PlaylistsController.destroyVideo')
   Route.delete('teacher/playlist/question/:idQuestion', 'PlaylistsController.destroyQuestion')
   Route.delete('teacher/playlist/team/:idTeam', 'PlaylistsController.destroyTeam')
+
+  // atualizar dentro de playlist
+  Route.put('teacher/playlist/video/:idVideo', 'PlaylistsController.updateVideo')
+  Route.put('teacher/playlist/question/:idQuestion', 'PlaylistsController.updateQuestion')
+  Route.put('teacher/playlist/team/:idTeam', 'PlaylistsController.updateTeam')
+
+  // atualizar senha do professor
+  Route.put('teacher/password', 'TeachersController.updatePassword')
+
+  // atualizar email do professor
+  Route.put('teacher/email', 'TeachersController.updateEmail')
+
+  // apagar consta do professor
+  Route.delete('teacher', 'TeachersController.destroy')
 }).middleware('auth')
