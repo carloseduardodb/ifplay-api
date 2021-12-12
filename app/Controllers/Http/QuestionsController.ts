@@ -14,28 +14,28 @@ export default class QuestionsController {
       title: request.all().title,
       quizId: request.all().quizId,
       teacherId: auth.user!.id,
-    }).then((question) => {
-      Alternative.create({
+    }).then(async (question) => {
+      await Alternative.create({
         questionId: question.id,
         isResponse: request.all().response.question1Rp,
         title: request.all().question1,
         teacherId: auth.user!.id,
       })
-      Alternative.create({
+      await Alternative.create({
         questionId: question.id,
-        isResponse: request.all().question2Rp,
+        isResponse: request.all().response.question2Rp,
         title: request.all().question2,
         teacherId: auth.user!.id,
       })
-      Alternative.create({
+      await Alternative.create({
         questionId: question.id,
-        isResponse: request.all().question3Rp,
+        isResponse: request.all().response.question3Rp,
         title: request.all().question3,
         teacherId: auth.user!.id,
       })
-      Alternative.create({
+      await Alternative.create({
         questionId: question.id,
-        isResponse: request.all().question4Rp,
+        isResponse: request.all().response.question4Rp,
         title: request.all().question4,
         teacherId: auth.user!.id,
       })
