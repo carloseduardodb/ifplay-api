@@ -2,6 +2,8 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 import CreateTeacherService from 'App/Services/CreateTeacherService'
 import CreateTeacher from 'App/Validators/CreateTeacherValidator'
+import Teacher from '../../Models/Teacher'
+import Hash from '@ioc:Adonis/Core/Hash'
 
 export default class TeachersController {
   public async create({ request, response }: HttpContextContract) {
@@ -103,13 +105,58 @@ export default class TeachersController {
     }
   }
 
-  public async store({}: HttpContextContract) {}
+  /* compara se email anterior é igual ao email atual e se for atualiza o email */
+  public async updateEmail({ request, response, auth }: HttpContextContract) {
+    const { email, newEmail } = request.all()
+    const teacher = await Teacher.find(auth.user!.id)
+    if (teacher) {
+      if (teacher.email === email) {
+        if (teacher.email === newEmail) {
+          return response.status(409).send({
+            message: 'Email já cadastrado',
+          })
+        }
+        teacher.email = newEmail
+        await teacher.save()
+        return response.status(200).send({
+          message: 'Email atualizado com sucesso',
+        })
+      }
+    }
+    return response.status(406).send({
+      message: 'Erro ao atualizar email, verifique se os dados estão corretos',
+    })
+  }
 
-  public async show({}: HttpContextContract) {}
+  // compara se senha anterior é igual a senha atual e atualiza a senha
+  public async updatePassword({ request, response, auth }: HttpContextContract) {
+    const teacher = await Teacher.findBy('id', auth.user!.id)
+    if (teacher) {
+      if (await Hash.verify(teacher.password, request.all().password)) {
+        teacher.password = await request.all().newPassword
+        await teacher.save()
+        return response.status(200).send({
+          message: 'Senha atualizada com sucesso',
+        })
+      } else {
+        return response.status(409).send({
+          message: 'Senha atual incorreta',
+        })
+      }
+    }
+  }
 
-  public async edit({}: HttpContextContract) {}
-
-  public async update({}: HttpContextContract) {}
-
-  public async destroy({}: HttpContextContract) {}
+  //apagar conta do professor
+  public async destroy({ response, auth }: HttpContextContract) {
+    const teacher = await Teacher.findBy('id', auth.user!.id)
+    if (teacher) {
+      await teacher.delete()
+      return response.status(200).send({
+        message: 'Conta deletada com sucesso',
+      })
+    }
+    return response.status(406).send({
+      message: 'Erro ao deletar conta',
+    })
+  }
 }
