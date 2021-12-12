@@ -2,7 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Question from '../../Models/Question'
 import Alternative from '../../Models/Alternative'
 import Response from '../../Models/Response'
-import Quiz from 'App/Models/Quiz'
+import Team from '../../Models/Team'
 
 export default class QuestionsController {
   public async index({}: HttpContextContract) {}
@@ -46,7 +46,8 @@ export default class QuestionsController {
     const { responses, email, code, name } = request.all()
 
     //saber se o código é valido
-    const itsValid = Quiz.find('code', code)
+    const itsValid = await Team.findBy('code', code)
+
     if (!itsValid) {
       return response.json({
         message: 'Código inválido!',
