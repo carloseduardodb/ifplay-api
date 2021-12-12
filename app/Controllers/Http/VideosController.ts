@@ -14,6 +14,7 @@ export default class VideosController {
       views: 0,
       teacherId: auth.user!.id,
     })
+    return video
   }
 
   // 4 últimos videos

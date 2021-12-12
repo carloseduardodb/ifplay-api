@@ -1,6 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
-import Response from '../../Models/Response'
 
 export default class AnswersController {
   public async index({}: HttpContextContract) {}

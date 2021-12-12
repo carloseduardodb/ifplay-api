@@ -8,7 +8,6 @@ import Question from '../../Models/Question'
 import Alternative from 'App/Models/Alternative'
 import Team from 'App/Models/Team'
 import Database from '@ioc:Adonis/Lucid/Database'
-import Response from '../../Models/Response'
 
 export default class PlaylistsController {
   public async index({ auth }: HttpContextContract) {
@@ -40,7 +39,7 @@ export default class PlaylistsController {
     return teams
   }
 
-  public async indexQuestions({ auth, params, response }: HttpContextContract) {
+  public async indexQuestions({ auth, params }: HttpContextContract) {
     const playlist = await Playlist.query()
       .where('teacher_id', auth.user!.id)
       .andWhere('id', params.id)
@@ -88,7 +87,7 @@ export default class PlaylistsController {
     return responses
   }
 
-  public async indexLastResponses({ auth, params }: HttpContextContract) {
+  public async indexLastResponses({ auth }: HttpContextContract) {
     // pegar todas as respostas do usuário a uma playlist
     const responses = await Database.rawQuery(
       'select student, email, ( select count(*) as `acertos` ' +
@@ -293,7 +292,7 @@ export default class PlaylistsController {
     }
   }
 
-  public async updateQuestion({ params, request }: HttpContextContract) {
+  public async updateQuestion({ params }: HttpContextContract) {
     /**  preciso percorrer todas as respostas de uma questão e
      * verificar se a resposta é igual ao que está sendo atualizado
      * se for atualizo a resposta, além disso preciso pegar o titulo da
