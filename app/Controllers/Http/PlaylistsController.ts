@@ -8,6 +8,7 @@ import Question from '../../Models/Question'
 import Alternative from 'App/Models/Alternative'
 import Team from 'App/Models/Team'
 import Database from '@ioc:Adonis/Lucid/Database'
+import Response from '../../Models/Response'
 
 export default class PlaylistsController {
   public async index({ auth }: HttpContextContract) {
@@ -81,6 +82,30 @@ export default class PlaylistsController {
         'where `teams`.`id` = ' +
         params.idTeams +
         ' ' +
+        'group by student, email'
+    )
+
+    return responses
+  }
+
+  public async indexLastResponses({ auth, params }: HttpContextContract) {
+    // pegar todas as respostas do usuário a uma playlist
+    const responses = await Database.rawQuery(
+      'select student, email, ( select count(*) as `acertos` ' +
+        'from `questions` inner join `quizzes` on `questions`.`quiz_id` = `quizzes`.`id` ' +
+        'inner join `playlists` on `quizzes`.`id` = `playlists`.`quiz_id` ' +
+        'inner join `responses` on `questions`.`id` = `responses`.`question_id` ' +
+        'where `responses`.`status` = true and `questions`.`teacher_id` = ' +
+        auth.user!.id +
+        ') ' +
+        'as `acertos`, ( select count(*) as `erros` from `questions` inner join ' +
+        '`quizzes` on `questions`.`quiz_id` = `quizzes`.`id` inner join `playlists` ' +
+        'on `quizzes`.`id` = `playlists`.`quiz_id` inner join `responses` ' +
+        'on `questions`.`id` = `responses`.`question_id` where `responses`.`status` = false ' +
+        ' and `questions`.`teacher_id` = ' +
+        auth.user!.id +
+        ') as `erros` from `responses` ' +
+        'inner join `teams` on `teams`.`code` = `responses`.`code` ' +
         'group by student, email'
     )
 
@@ -213,18 +238,50 @@ export default class PlaylistsController {
     }
   }
 
-  public async show({}: HttpContextContract) {}
-
-  public async update({}: HttpContextContract) {}
-
   public async destroy({ params }: HttpContextContract) {
-    console.log(params.id)
-    Playlist.findBy('id', params.id)
+    await Playlist.findBy('id', params.id)
       .then(async (playlist) => {
-        if (playlist) await playlist.delete()
+        const quiz = await Quiz.findBy('id', playlist?.quizId)
+        const question = await Question.find({ quiz_id: quiz?.id })
+        if (playlist || quiz || question) {
+          question?.delete()
+          quiz?.delete()
+          playlist?.delete()
+        }
       })
       .catch(() => {
         Error('Playlist not found')
+      })
+  }
+
+  public async destroyVideo({ params }: HttpContextContract) {
+    Video.findBy('id', params.idVideo)
+      .then(async (video) => {
+        video?.delete()
+      })
+      .catch(() => {
+        Error('Video not found')
+      })
+  }
+
+  public async destroyQuestion({ params }: HttpContextContract) {
+    console.log(params.id)
+    Question.findBy('id', params.idQuestion)
+      .then(async (question) => {
+        question?.delete()
+      })
+      .catch(() => {
+        Error('Question not found')
+      })
+  }
+
+  public async destroyTeam({ params }: HttpContextContract) {
+    Team.findBy('id', params.idTeam)
+      .then(async (team) => {
+        team?.delete()
+      })
+      .catch(() => {
+        Error('Team not found')
       })
   }
 }
