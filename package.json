@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "commit": "cz",
-    "build": "node ace build --production",
+    "build": "node ace build --production && node ace migration:run",
     "start": "node build/server.js",
     "dev": "node ace serve --watch",
     "lint": "eslint . --ext=.ts",
