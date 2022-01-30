@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  api:
+    # Build dockerfile
+    build: .
+    # Restart container in case of crashes etc
+    restart: always
+    # Set API to use host networking
+    network_mode: host
+    # API depends on DB to be there
+    depends_on:
+      - db
+    # Set env variables
+    environment:
+      APP_KEY: super_strok_key_no1_quezzes_it
+      PG_PASSWORD: example
+      PG_USER: postgres
+    # Mount uploads to volume, 
+    # so they wont get lost over deployments
+    # Change uploads path to wherever 
+    # you store uploads in your app
+    # Also ensure NodeJS has write access to there
+    # (by default Node will have it)
+    volumes:
+      - uploads:/home/node/app/public/uploads
+
+  db:
+    # Set DB version to run
+    image: postgres:13.3-alpine
+    # Restart container in case of crashes etc
+    restart: always
+    # Set DB to use host networking
+    network_mode: host
+    # Set DB env variables
+    environment:
+      POSTGRES_PASSWORD: example
+    # Mount DB data to volume, 
+    # so we don't lose all DB data over deployments
+    volumes:
+      - database:/var/lib/postgresql/data
+
+# Define the DB volume
+volumes:
+  database:
+  uploads:
