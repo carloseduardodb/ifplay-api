@@ -61,24 +61,24 @@ export default class PlaylistsController {
   public async indexResponses({ auth, params }: HttpContextContract) {
     // pegar todas as respostas do usuário a uma playlist
     const responses = await Database.rawQuery(
-      'select student, email, ( select count(*) as `acertos` ' +
-        'from `questions` inner join `quizzes` on `questions`.`quiz_id` = `quizzes`.`id` ' +
-        'inner join `playlists` on `quizzes`.`id` = `playlists`.`quiz_id` ' +
-        'inner join `responses` on `questions`.`id` = `responses`.`question_id` ' +
-        'where `responses`.`status` = true and `questions`.`teacher_id` = ' +
+      'select student, email, ( select count(*) as "acertos" ' +
+        'from "questions" inner join "quizzes" on "questions"."quiz_id" = "quizzes"."id" ' +
+        'inner join "playlists" on "quizzes"."id" = "playlists"."quiz_id" ' +
+        'inner join "responses" on "questions"."id" = "responses"."question_id" ' +
+        'where "responses"."status" = true and "questions"."teacher_id" = ' +
         auth.user!.id +
         ') ' +
-        'as `acertos`, ( select count(*) as `erros` from `questions` inner join ' +
-        '`quizzes` on `questions`.`quiz_id` = `quizzes`.`id` inner join `playlists` ' +
-        'on `quizzes`.`id` = `playlists`.`quiz_id` inner join `responses` ' +
-        'on `questions`.`id` = `responses`.`question_id` where `responses`.`status` = false ' +
-        'and `playlists`.`id` = ' +
+        'as "acertos", ( select count(*) as "erros" from "questions" inner join ' +
+        '"quizzes" on "questions"."quiz_id" = "quizzes"."id" inner join "playlists" ' +
+        'on "quizzes"."id" = "playlists"."quiz_id" inner join "responses" ' +
+        'on "questions"."id" = "responses"."question_id" where "responses"."status" = false ' +
+        'and "playlists"."id" = ' +
         params.idPlaylist +
-        ' and `questions`.`teacher_id` = ' +
+        ' and "questions"."teacher_id" = ' +
         auth.user!.id +
-        ') as `erros` from `responses` ' +
-        'inner join `teams` on `teams`.`code` = `responses`.`code` ' +
-        'where `teams`.`id` = ' +
+        ') as "erros" from "responses" ' +
+        'inner join "teams" on "teams"."code" = "responses"."code" ' +
+        'where "teams"."id" = ' +
         params.idTeams +
         ' ' +
         'group by student, email'
@@ -90,21 +90,21 @@ export default class PlaylistsController {
   public async indexLastResponses({ auth }: HttpContextContract) {
     // pegar todas as respostas do usuário a uma playlist
     const responses = await Database.rawQuery(
-      'select student, email, ( select count(*) as `acertos` ' +
-        'from `questions` inner join `quizzes` on `questions`.`quiz_id` = `quizzes`.`id` ' +
-        'inner join `playlists` on `quizzes`.`id` = `playlists`.`quiz_id` ' +
-        'inner join `responses` on `questions`.`id` = `responses`.`question_id` ' +
-        'where `responses`.`status` = true and `questions`.`teacher_id` = ' +
+      'select student, email, ( select count(*) as "acertos" ' +
+        'from "questions" inner join "quizzes" on "questions"."quiz_id" = "quizzes"."id" ' +
+        'inner join "playlists" on "quizzes"."id" = "playlists"."quiz_id" ' +
+        'inner join "responses" on "questions"."id" = "responses"."question_id" ' +
+        'where "responses"."status" = true and "questions"."teacher_id" = ' +
         auth.user!.id +
         ') ' +
-        'as `acertos`, ( select count(*) as `erros` from `questions` inner join ' +
-        '`quizzes` on `questions`.`quiz_id` = `quizzes`.`id` inner join `playlists` ' +
-        'on `quizzes`.`id` = `playlists`.`quiz_id` inner join `responses` ' +
-        'on `questions`.`id` = `responses`.`question_id` where `responses`.`status` = false ' +
-        ' and `questions`.`teacher_id` = ' +
+        'as "acertos", ( select count(*) as "erros" from "questions" inner join ' +
+        '"quizzes" on "questions"."quiz_id" = "quizzes"."id" inner join "playlists" ' +
+        'on "quizzes"."id" = "playlists"."quiz_id" inner join "responses" ' +
+        'on "questions"."id" = "responses"."question_id" where "responses"."status" = false ' +
+        ' and "questions"."teacher_id" = ' +
         auth.user!.id +
-        ') as `erros` from `responses` ' +
-        'inner join `teams` on `teams`.`code` = `responses`.`code` ' +
+        ') as "erros" from "responses" ' +
+        'inner join "teams" on "teams"."code" = "responses"."code" ' +
         'group by student, email'
     )
 
