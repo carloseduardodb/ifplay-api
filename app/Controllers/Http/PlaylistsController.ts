@@ -98,17 +98,17 @@ export default class PlaylistsController {
         'from questions inner join quizzes on "questions"."quiz_id" = "quizzes"."id" ' +
         'inner join playlists on quizzes.id = playlists.quiz_id ' +
         'inner join responses on questions.id = responses.question_id ' +
-        'where responses.status = true and questions.teacher_id = ' +
+        'where responses.status = true and rp.email = responses.email and questions.teacher_id = ' +
         auth.user!.id +
         ') ' +
         'as acertos, ( select count(*) as erros from questions inner join ' +
         'quizzes on questions.quiz_id = quizzes.id inner join playlists ' +
         'on quizzes.id = playlists.quiz_id inner join responses ' +
-        'on questions.id = responses.question_id where responses.status = false ' +
+        'on questions.id = responses.question_id where responses.status = false and rp.email = responses.email ' +
         ' and questions.teacher_id = ' +
         auth.user!.id +
         ') as erros from responses as rp ' +
-        'inner join teams on teams.code = responses.code ' +
+        'inner join teams on teams.code = rp.code ' +
         'group by student, email'
     )
 
