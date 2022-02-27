@@ -6,7 +6,7 @@
 
 ## Em produção
 
-IFPLAY é uma api usada para a criação de formulários em playlists de videos em um sistema multitenancy
+IFPLAY é uma api usada para a criação de formulários em playlists de videos em um sistema multitenancy.
 
 <br />
 
@@ -14,10 +14,10 @@ IFPLAY é uma api usada para a criação de formulários em playlists de videos 
 
 Este projeto é composto por duas partes separadas (Frontend e Backend)
 
-- Acesse por <a href = 'https://github.com/carloseduardodb/ifplay-api'>aqui</a> o Backend
-- Acesse por <a href = 'https://github.com/carloseduardodb/ifplay'>aqui</a> o Frontend
+- Acesse por <a href = 'https://github.com/carloseduardodb/ifplay-api'>aqui</a> o Backend.
+- Acesse por <a href = 'https://github.com/carloseduardodb/ifplay'>aqui</a> o Frontend.
 
-Existem duas publicações deste projeto (Um resumo expandido (Publicado) e um artigo (TCC defendido))
+Existem duas publicações deste projeto (um resumo expandido (Publicado) e um artigo (TCC defendido))
 
 - Acesse por <a href = 'https://jornada.ifsuldeminas.edu.br/index.php/jctpas2021/jctpas2021/paper/viewFile/6974/5198'>aqui</a> o resumo expandido publicado.
 - Acesse por <a href = 'https://drive.google.com/file/d/1bs03lFs6tBpH3nUVUaBZ0BUlzrqXIu41/view?usp=sharing'>aqui</a> o TCC defendido.
@@ -64,7 +64,7 @@ Cliente (Público):
 
 ### Das Tecnologias:
 
-Ferramentas
+Ferramentas:
 
 - Figma (prototipação de componentes React).
 - VSCode
@@ -81,7 +81,7 @@ Ferramentas
 - DBeaver
 - Lucid ORM
 
-Linguagens e Frameworks
+Linguagens e Frameworks:
 
 - TailwindCSS V2
 - TypeScript
