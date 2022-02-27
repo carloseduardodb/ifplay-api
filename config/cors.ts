@@ -45,13 +45,13 @@ const corsConfig: CorsConfig = {
   |
   */
   origin: [
-  'ifplay.herokuapp.com', 
-  'https://ifplay.herokuapp.com', 
-  'http://ifplay.herokuapp.com', 
-  'www.ifplay.herokuapp.com', 
-  'http://www.ifplay.herokuapp.com', 
-  'https://www.ifplay.herokuapp.com',
-]
+    'ifplay.herokuapp.com',
+    'https://ifplay.herokuapp.com',
+    'http://ifplay.herokuapp.com',
+    'www.ifplay.herokuapp.com',
+    'http://www.ifplay.herokuapp.com',
+    'https://www.ifplay.herokuapp.com',
+  ],
 
   /*
   |--------------------------------------------------------------------------
