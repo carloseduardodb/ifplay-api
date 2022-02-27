@@ -109,7 +109,7 @@ export default class PlaylistsController {
         auth.user!.id +
         ') as erros from responses as rp ' +
         'inner join teams on teams.code = rp.code ' +
-        'teams.teacher_id = ' +
+        'where teams.teacher_id = ' +
         auth.user!.id +
         ' ' +
         'group by student, email'
