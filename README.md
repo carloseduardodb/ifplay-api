@@ -6,7 +6,7 @@
 
 ## Em produção
 
-IFPLAY é uma api usada para a criação de formulários em playlists de videos em um sistema multitenancy.
+IFPLAY é uma api usada para a criação de formulários em playlists de videos em um sistema multi tenancy.
 
 <br />
 
